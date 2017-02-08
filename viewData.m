@@ -1,3 +1,6 @@
+% Top channel- venous pressure recording in an ear vein
+% Middle channel- venous pressure recording in one of the limbs
+% Bottom channel- arterial pressure recording with a piezo electric pressure sensor near the neck of the animal
 % Select which LabChart (.adicht) file to use
 f = adi.readFile;
 % Display general information about the data stored in the file
@@ -9,12 +12,15 @@ ch2 = f.getChannelByName('Channel 2');
 disp(ch2);
 ch3 = f.getChannelByName('Channel 3');
 disp(ch3);
-ch4 = f.getChannelByName('Channel 4');
-disp(ch4);
+% I am not sure what channel 4 is
+% ch4 = f.getChannelByName('Channel 4');
+% disp(ch4);
 % Store the data from each channel
 data1 = ch1.getData(1);
 data2 = ch2.getData(1);
 data3 = ch3.getData(1);
+% I am not sure what channel 4 is
+% data4 = ch4.getData(1);
 % The hold command allows you to plot multiple charts on the same graph
 % Enter the hold command again to only plot a single chart
 hold;
@@ -35,12 +41,16 @@ hold;
 plot(fft1)
 plot(fft2)
 plot(fft3)
-% Apply moving average (lowpass) filter to the data with window size of 100
-windowSize = 100;
-b = (1/windowSize)*ones(1,windowSize);
-a = 1;
-% Apply the filter
-data3_prime = filter(b,a,data3);
+% Apply IIR (Chebyshev Type II) lowpass filter to the data with 8th order, .04*PI
+% cutoff frequency, and stopband attenuation of 20 dB
+N = 8;
+F3dB = .04;
+d = fdesign.lowpass('N,F3dB',N,F3dB);
+Hbutter = design(d,'butter','SystemObject',true);
+Ast = 20;
+setspecs(d,'N,F3dB,Ast',N,F3dB,Ast);
+Hcheby2 = design(d,'cheby2','SystemObject',true);
+data3_prime = Hcheby2(data3);
 % Create new figure for filtered data
 figure(3);
 % Graph the filtered data
