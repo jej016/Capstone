@@ -43,22 +43,34 @@ plot(fft2)
 plot(fft3)
 % Apply IIR (Chebyshev Type II) lowpass filter to the data with 8th order, .04*PI
 % cutoff frequency, and stopband attenuation of 20 dB
-N = 8;
-F3dB = .04;
-d = fdesign.lowpass('N,F3dB',N,F3dB);
-Hbutter = design(d,'butter','SystemObject',true);
-Ast = 20;
-setspecs(d,'N,F3dB,Ast',N,F3dB,Ast);
-Hcheby2 = design(d,'cheby2','SystemObject',true);
-data3_prime = Hcheby2(data3);
+N_Low = 8;
+F3dB_Low = .04;
+d = fdesign.lowpass('N,F3dB',N_Low,F3dB_Low);
+%HbutterLow = design(d,'butter','SystemObject',true);
+Ast_Low = 20;
+setspecs(d,'N,F3dB,Ast',N_Low,F3dB_Low,Ast_Low);
+Hcheby2Low = design(d,'cheby2','SystemObject',true);
+data3Low = Hcheby2Low(data3);
+N_High = 8;
+F3dB_High = .2;
+e = fdesign.highpass('N,F3dB',N_High,F3dB_High);
+%HbutterHigh = design(e,'butter','SystemObject',true);
+Ast_High = 1;
+setspecs(e,'N,F3dB,Ast',N_High,F3dB_High,Ast_High);
+Hcheby2High = design(e,'cheby2','SystemObject',true);
+data3High = Hcheby2High(data3);
+data3Filt = Hcheby2High(Hcheby2Low(data3));
 % Create new figure for filtered data
 figure(3);
 % Graph the filtered data
 hold;
-plot(data3)
-plot(data3_prime)
+plot(data3(5000000:5001000))
+plot(data3High(5000000:5001000))
+plot(data3Low(5000000:5001000))
+plot(data3Filt(5000000:5001000))
+legend('Raw','Low','High','Both')
 % Apply FFT to filtered data
-fft3_prime = fft(data3_prime);
+fft3_prime = fft(data3Low);
 % Create new figure for filtered FFT
 figure(4);
 % Graph the filtered fft
