@@ -17,28 +17,11 @@ data1 = ch1.getData(1);
 data2 = ch2.getData(1);
 data3 = ch3.getData(1);
 % Plot the data from each of the signals
-GraphData.graph(data1, data2, data3);
+GraphData.graph3(data1, data2, data3, 1);
 % Apply FFT to each of the data signals
-fft1 = fft(data1);
-fft2 = fft(data2);
-fft3 = fft(data3);
-% Create new figure for FFT
-figure(2);
-% Graph the FFT of the data channels
-hold;
-plot(fft1)
-plot(fft2)
-plot(fft3)
+FFTData.FastFourier(data1, data2, data3, 2);
 % Apply IIR (Chebyshev Type II) lowpass filter to the data with 8th order, .04*PI
 % cutoff frequency, and stopband attenuation of 20 dB
-figure(3)
+figure(5)
 result = FilterData.filter(data3, 8, .04, 20, 8, .2, 1);
-plot (result)
-% Apply FFT to filtered data
-fft3_prime = fft(result);
-% Create new figure for filtered FFT
-figure(4);
-% Graph the filtered fft
-hold;
-plot(fft3)
-plot(fft3_prime)
+GraphData.graph2(result(5000000:5001000), data3(5000000:5001000), 5);
