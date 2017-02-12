@@ -22,6 +22,9 @@ GraphData.graph3(data1, data2, data3, 1);
 FFTData.FastFourier(data1, data2, data3, 2);
 % Apply IIR (Chebyshev Type II) lowpass filter to the data with 8th order, .04*PI
 % cutoff frequency, and stopband attenuation of 20 dB
-figure(5)
-result = FilterData.filter(data3, 8, .04, 20, 8, .2, 1);
-GraphData.graph2(result(5000000:5001000), data3(5000000:5001000), 5);
+result1 = FilterData.filter(data1, 8, .1, 20, 4, .1, .001);
+result2 = FilterData.filter(data2, 8, .1, 20, 4, .1, .001);
+result3 = FilterData.filter(data3, 8, .04, 20, 8, .2, 1);
+GraphData.graph2(result1(5000000:5001000), data1(5000000:5001000), 5);
+GraphData.graph2(result2(5000000:5001000), data2(5000000:5001000), 6);
+GraphData.graph2(result3(5000000:5001000), data3(5000000:5001000), 7);

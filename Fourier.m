@@ -3,7 +3,7 @@ classdef Fourier
         function FFourier(X, index)
             Fs = 1000;            % Sampling frequency
             T = 1/Fs;             % Sampling period
-            L = 500;        % Length of signal
+            L = length(X);        % Length of signal
             t = (0:L-1)*T;        % Time vector
             
             %{
