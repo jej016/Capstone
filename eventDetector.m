@@ -1,15 +1,15 @@
 classdef eventDetector
     methods(Static)
-        function detector(file)       
-            eventTime = xlsread(file, 'A:A');
-            eventName = xlsread(file, 'B:B');
-            for i = 2:length(eventTime)-1
-                eventIndex= duration(eventTime);    
-            end    
-            for j = 2 : length(evenTime)-1
-                eventIndex(j)=(eventIndex(j)+eventIndex(j-1))*1000;
+        function result = detector(file)
+            eventTime = datestr( xlsread(file, 'A:A'), 'HH:MM:SS' );
+            [~, eventName] = xlsread(file, 'B:B');
+            eventHour = hour(eventTime);
+            eventMinute = minute(eventTime);
+            eventIndex = zeros(37,1);
+            for i = 2:length(eventTime)
+                eventIndex(i) = (((eventHour(i) - eventHour(1)) * 60 * 60) + ((eventMinute(i) - eventMinute(1)) * 60)) * 1000;    
             end
-            return table (eventIndex, eventName);
+            result = table(eventIndex, eventName);
         end
     end
 end
