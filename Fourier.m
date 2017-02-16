@@ -1,18 +1,10 @@
 classdef Fourier
     methods (Static)
-        function FFourier(X, index)
+        function result = FFourier(X, index)
             Fs = 1000;            % Sampling frequency
             T = 1/Fs;             % Sampling period
             L = length(X);        % Length of signal
             t = (0:L-1)*T;        % Time vector
-            
-            %{
-            figure(6)
-            plot(1000*t(1:L),X(1:L))
-            title('Raw Data vs Time')
-            xlabel('t (milliseconds)')
-            ylabel('X(t)')
-            %}
             
             Y = fft(X);
             P2 = abs(Y/L);
@@ -25,6 +17,21 @@ classdef Fourier
             title('Single-Sided Amplitude Spectrum of X(t)')
             xlabel('f (Hz)')
             ylabel('|P1(f)|')
+            
+            result = P1;
+        end
+        function result = FFourier2(X)
+            Fs = 1000;            % Sampling frequency
+            T = 1/Fs;             % Sampling period
+            L = length(X);        % Length of signal
+            t = (0:L-1)*T;        % Time vector
+            
+            Y = fft(X);
+            P2 = abs(Y/L);
+            P1 = P2(1:L/2+1);
+            P1(2:end-1) = 2*P1(2:end-1);
+            
+            result = P1;
         end
     end
 end
