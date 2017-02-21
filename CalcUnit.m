@@ -1,6 +1,6 @@
 classdef CalcUnit %defines the class for the calc unit that will interface with the main class
     methods (Static)
-        function study(data1, data2, data3) %operations will be performed 
+        function calculations = study(data1, data2, data3) %operations will be performed 
             %on the three input arrays: data1, data2, data3
             
             %operations to be performed on each data signal will be: mean,
@@ -38,7 +38,16 @@ classdef CalcUnit %defines the class for the calc unit that will interface with 
             
             %each variable will be saved to a .mat file to be able to be
             %referenced later
-            save('t1.mat', 'avgSig1', 'medSig1', 'stdvSig1', 'varSig1', 'minSig1', 'maxSig1', 'avgSig2', 'medSig2', 'stdvSig2', 'varSig2', 'minSig2', 'maxSig2', 'avgSig3', 'medSig3', 'stdvSig3', 'varSig3', 'minSig3', 'maxSig3', 'avgAll', 'medAll', 'stdvAll', 'varAll', 'minAll', 'maxAll');
+            %save('t1.mat', 'avgSig1', 'medSig1', 'stdvSig1', 'varSig1', 'minSig1', 'maxSig1', 'avgSig2', 'medSig2', 'stdvSig2', 'varSig2', 'minSig2', 'maxSig2', 'avgSig3', 'medSig3', 'stdvSig3', 'varSig3', 'minSig3', 'maxSig3', 'avgAll', 'medAll', 'stdvAll', 'varAll', 'minAll', 'maxAll');
+            
+            maxi = [maxSig1,maxSig2,maxSig3];
+            mini = [minSig1,minSig2,minSig3];
+            avrg = [avgSig1,avgSig2,avgSig3];
+            medi = [medSig1,medSig2,medSig3];
+            vari = [varSig1,varSig2,varSig3];
+            stdDev = [stdvSig1,stdvSig2,stdvSig3];
+            
+            calculations = table(maxi, mini, avrg, medi, vari, stdDev);
         end
     end
 end

@@ -17,6 +17,7 @@ classdef Main
             % Determine when events occour
             event = eventDetector.detector('Events');
             % Package data into a custom structure
+            warning('off','all');
             for i = 1:length(event.eventIndex)
                 index = event.eventIndex(i);
                 info(i).name = event.eventName(i);
@@ -27,7 +28,16 @@ classdef Main
                 info(i).fourier1 = Fourier.FFourier2(data1(index:index+30000));
                 info(i).fourier2 = Fourier.FFourier2(data2(index:index+30000));
                 info(i).fourier3 = Fourier.FFourier2(data3(index:index+30000));
+                calc = CalcUnit.study(data1(index:index+30000), data2(index:index+30000), data3(index:index+30000));
+                info(i).max = calc.maxi;
+                info(i).min = calc.mini;
+                info(i).avg = calc.avrg;
+                info(i).var = calc.vari;
+                info(i).stdDev = calc.stdDev;
+                info(i).med = calc.medi;
             end
+            warning('on','all');
+            disp(info(2).max(1))
             result = info;
         end
     end
