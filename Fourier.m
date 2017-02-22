@@ -1,37 +1,34 @@
 classdef Fourier
     methods (Static)
         function result = FFourier(X, index)
-            Fs = 1000;            % Sampling frequency
-            T = 1/Fs;             % Sampling period
-            L = length(X);        % Length of signal
-            t = (0:L-1)*T;        % Time vector
+            % how many samples per second
+            size = length(X);
             
-            Y = fft(X);
-            P2 = abs(Y/L);
-            P1 = P2(1:L/2+1);
-            P1(2:end-1) = 2*P1(2:end-1);
+            % calculate fft
+            fastf = fft(X);
+            calc1 = abs(fastf/size);
+            calc2 = calc1(1:size/2+1);
+            calc2(2:end-1) = 2*calc2(2:end-1);
 
+            % graph
             figure(index)
-            f = Fs*(0:(L/2))/L;
-            plot(f,P1)
-            title('Single-Sided Amplitude Spectrum of X(t)')
-            xlabel('f (Hz)')
-            ylabel('|P1(f)|')
+            plot(calc2)
             
-            result = P1;
+            % return result
+            result = calc2;
         end
         function result = FFourier2(X)
-            Fs = 1000;            % Sampling frequency
-            T = 1/Fs;             % Sampling period
-            L = length(X);        % Length of signal
-            t = (0:L-1)*T;        % Time vector
+            % how many samples per second
+            size = length(X);
             
-            Y = fft(X);
-            P2 = abs(Y/L);
-            P1 = P2(1:L/2+1);
-            P1(2:end-1) = 2*P1(2:end-1);
+            % calcultate fft
+            fastf = fft(X);
+            calc1 = abs(fastf/size);
+            calc2 = calc1(1:size/2+1);
+            calc2(2:end-1) = 2*calc2(2:end-1);
             
-            result = P1;
+            % return result
+            result = calc2;
         end
     end
 end

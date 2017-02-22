@@ -6,18 +6,26 @@ classdef Main
             % Bottom channel- arterial pressure recording with a piezo electric pressure sensor near the neck of the animal
             % Select which LabChart (.adicht) file to use
             f = adi.readFile;
+            
             % Store channels
             ch1 = f.getChannelByName('Channel 1');
             ch2 = f.getChannelByName('Channel 2');
             ch3 = f.getChannelByName('Channel 3');
+            
             % Store the data from each channel
             data1 = ch1.getData(1);
             data2 = ch2.getData(1);
             data3 = ch3.getData(1);
+            
             % Determine when events occour
             event = eventDetector.detector('Events');
-            % Package data into a custom structure
+            
+            % Turn off warnings
             warning('off','all');
+            
+            info(length(event.eventIndex)) = struct();
+            
+            % Package data into a custom structure           
             for i = 1:length(event.eventIndex)
                 index = event.eventIndex(i);
                 info(i).name = event.eventName(i);
@@ -36,8 +44,11 @@ classdef Main
                 info(i).stdDev = calc.stdDev;
                 info(i).med = calc.medi;
             end
+            
+            % Turn warnings on
             warning('on','all');
-            disp(info(2).max(1))
+            
+            % return struct array
             result = info;
         end
     end
