@@ -4,6 +4,7 @@ classdef eventDetector
             % read in data from excel file
             eventTime = datestr( xlsread(file, 'A:A'), 'HH:MM:SS' );
             [~, eventName] = xlsread(file, 'B:B');
+            eventName = strcat(eventName, '- ', eventTime);
             
             % separate hours and minutes from time
             eventHour = hour(eventTime);
