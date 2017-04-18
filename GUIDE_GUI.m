@@ -51,13 +51,14 @@ function GUIDE_GUI_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to GUIDE_GUI (see VARARGIN)
 f = adi.readFile;
+g = f.file_path(1:length(f.file_path)-7);
 ch1 = f.getChannelByName('Channel 1');
 handles.data1 = ch1.getData(1);
 ch2 = f.getChannelByName('Channel 2');
 handles.data2 = ch2.getData(1);
 ch3 = f.getChannelByName('Channel 3');
 handles.data3 = ch3.getData(1);
-handles.event = eventDetector.detector('Events');
+handles.event = eventDetector.detector(g);
 
 %handles.fig = handles.axes1;
 handles.z = handles.data1;
