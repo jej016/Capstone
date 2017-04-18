@@ -284,6 +284,7 @@ function edit1_Callback(hObject, eventdata, handles)
         handles.z = handles.data1(handles.index:handles.index + handles.eventLength);
         handles.y = handles.data2(handles.index:handles.index + handles.eventLength);
         handles.x = handles.data3(handles.index:handles.index + handles.eventLength);
+        handles.right = handles.eventLength;
         resetGraph(hObject,eventdata, handles);
     end;
     guidata(hObject, handles);
